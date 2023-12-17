@@ -1,15 +1,5 @@
 version: "3.9"
 services:
-  # web:
-  #   container_name: web
-  #   image: nginx:latest
-  #   ports:
-  #     - 5100:5100
-  #   volumes:
-  #     - ./public:/etc/nginx/html/:ro
-  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
-  #   links:
-  #     - ttyd
       
   vm:
     container_name: vm
@@ -18,7 +8,7 @@ services:
   ttyd:
     container_name: ttyd
     build: ./docker/ttyd
-    command: "ttyd --ssl --ssl-cert /etc/letsencrypt/live/linuxvm.dannluciano.com.br/fullchain.pem --ssl-key /etc/letsencrypt/live/linuxvm.dannluciano.com.br/privkey.pem -W docker run -it --cpus=1 --memory=128mb --network=none --rm sendit-ide-vm"
+    command: "ttyd --ssl --ssl-cert /home/dokku/linuxvm/tls/server.crt --ssl-key /home/dokku/linuxvm/tls/server.key -W docker run -it --cpus=1 --memory=128mb --network=none --rm sendit-ide-vm"
     ports:
       - 7681:7681
     volumes:
