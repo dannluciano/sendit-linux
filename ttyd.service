@@ -1,0 +1,14 @@
+[Unit]
+Description=TTYD
+After=syslog.target
+After=network.target
+
+[Service]
+ExecStart=ttyd --ssl --ssl-cert /home/dokku/linuxvm/tls/server.crt --ssl-key /home/dokku/linuxvm/tls/server.key -W docker run -it --cpus=1 --memory=128mb --network=none --rm sendit-ide-vm
+Type=simple
+Restart=always
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
