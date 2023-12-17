@@ -18,7 +18,7 @@ services:
   ttyd:
     container_name: ttyd
     build: ./docker/ttyd
-    command: "ttyd -W docker run -it --cpus=1 --memory=256mb --network=none --rm sendit-ide-vm"
+    command: "ttyd --ssl --ssl-cert /etc/letsencrypt/live/linuxvm.dannluciano.com.br/fullchain.pem --ssl-key /etc/letsencrypt/live/linuxvm.dannluciano.com.br/privkey.pem -W docker run -it --cpus=1 --memory=128mb --network=none --rm sendit-ide-vm"
     ports:
       - 7681:7681
     volumes:
