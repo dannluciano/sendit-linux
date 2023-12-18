@@ -1,0 +1,48 @@
+worker_processes 1;
+error_log stderr;
+pid nginx.pid;
+daemon off;
+
+events {
+  worker_connections 768;
+}
+
+http {
+  types_hash_max_size 2048;
+  include mime.types;
+  charset UTF-8;
+
+    upstream ttyd_backend {
+        server linuxvm.dannluciano.com.br:7681;
+    }
+
+  server {
+    listen {{ $.PORT }};
+    server_name  _;
+    {{ if ne $.NGINX_ROOT "" }}
+      root /app/www/{{ $.NGINX_ROOT }};
+    {{ else }}
+      root /app/www;
+    {{ end }}
+    index index.html;
+    port_in_redirect off;
+
+    location ~ ^/ttyd(.*)$ {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass https://ttyd_backend/$1;
+    }
+
+    location / {
+      {{ if ne $.NGINX_DEFAULT_REQUEST "" }}
+        try_files $uri $uri/ /{{ $.NGINX_DEFAULT_REQUEST }};
+      {{ else }}
+        try_files $uri $uri/ =404;
+      {{ end }}
+    }
+  }
+}
