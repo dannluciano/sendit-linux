@@ -4,12 +4,13 @@ services:
       container_name: lweb
       image: nginx:latest
       ports:
-        - 5100:5100
+        - 80:5100
       volumes:
         - ./:/etc/nginx/html/:ro
         - ./nginx.conf:/etc/nginx/nginx.conf:ro
       links:
         - ttyd
+        - webserver
       develop:
         watch:
           - action: sync
@@ -19,6 +20,18 @@ services:
   vm:
     container_name: lvm
     build: ./docker/vm
+  
+  webserver:
+    image: caddy:alpine
+    ports:
+      - 8080:8080
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-data:/data
+      - ./caddy-config:/config
+      - .:/usr/share/caddy
+    restart: always
+    container_name: lwebserver
 
   ttyd:
     container_name: ttyd
