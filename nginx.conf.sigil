@@ -188,10 +188,10 @@ server {
 
 {{ if $.DOKKU_APP_WEB_LISTENERS }}
 {{ range $upstream_port := $.PROXY_UPSTREAM_PORTS | split " " }}
-upstream {{ $.APP }}-{{ $upstream_port }} {
+upstream {{ $.APP }}-8080 {
 {{ range $listeners := $.DOKKU_APP_WEB_LISTENERS | split " " }}
 {{ $listener_list := $listeners | split ":" }}
 {{ $listener_ip := index $listener_list 0 }}
-  server {{ $listener_ip }}:{{ $upstream_port }};{{ end }}
+  server {{ $listener_ip }}:8080;{{ end }}
 }
 {{ end }}{{ end }}
