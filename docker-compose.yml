@@ -36,7 +36,7 @@ services:
   ttyd:
     container_name: ttyd
     build: ./docker/ttyd
-    command: "ttyd -W docker run -it --cpus=1 --memory=128mb --network=none --rm sendit-linux-vm"
+    command: "ttyd -W docker run -it --cpus=1 --memory=128mb --rm sendit-linux-vm"
     ports:
       - 7681:7681
     volumes:
