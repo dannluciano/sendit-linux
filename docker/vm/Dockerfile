@@ -9,6 +9,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
     vim \
     wget \
     curl \
+    dnsutils \
+    mtr \
+    iproute2 \
+    nyancat \
     && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]
