@@ -1,5 +1,6 @@
 :8080 {
     root * /usr/share/caddy
     reverse_proxy /ttyd* http://linuxvm.dannluciano.com.br:7681
+    redir / http://sendit.dannluciano.com.br/sh
     file_server browse
 }
